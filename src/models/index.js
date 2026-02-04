@@ -1,0 +1,50 @@
+import Sequelize from "sequelize";
+import { sequelize } from "../config/index.js";
+
+// Import models
+import * as pmsUser from "./pmsUser.js";
+import * as pmsState from "./pmsState.js";
+import * as pmsBranch from "./pmsBranch.js";
+import * as pmsCompany from "./pmsCompany.js";
+import * as pmsRolemanagment from "./pmsRolemanagment.js";
+import * as pmsLeftmenu from "./pmsLeftmenu.js";
+import * as pmsLocation from "./pmsLocation.js";
+import * as pmsUserCheckin from "./pmsUserCheckin.js";
+import * as pmsStandDetails from "./pmsStandDetails.js";
+import * as pmsLocationType from "./pmsLocationType.js";
+import * as pmsVehicle from "./pmsVehicle.js";
+import * as pmsProject from "./pmsProject.js";
+import * as pmsFinancialYear from "./pmsFinancialYear.js";
+import * as pmsProjectInvoice from "./pmsProjectInvoice.js";
+
+// Initialize models
+const db = {
+  pmsUser: pmsUser.default(sequelize, Sequelize.DataTypes),
+  pmsState: pmsState.default(sequelize, Sequelize.DataTypes),
+  pmsBranch: pmsBranch.default(sequelize, Sequelize.DataTypes),
+  pmsCompany: pmsCompany.default(sequelize, Sequelize.DataTypes),
+  pmsRolemanagment: pmsRolemanagment.default(sequelize, Sequelize.DataTypes),
+  pmsLeftmenu: pmsLeftmenu.default(sequelize, Sequelize.DataTypes),
+  pmsLocation: pmsLocation.default(sequelize, Sequelize.DataTypes),
+  pmsUserCheckin: pmsUserCheckin.default(sequelize, Sequelize.DataTypes),
+  pmsStandDetails: pmsStandDetails.default(sequelize, Sequelize.DataTypes),
+  pmsLocationType: pmsLocationType.default(sequelize, Sequelize.DataTypes),
+  pmsVehicle: pmsVehicle.default(sequelize, Sequelize.DataTypes),
+  pmsProject: pmsProject.default(sequelize, Sequelize.DataTypes),  
+  pmsFinancialYear: pmsFinancialYear.default(sequelize, Sequelize.DataTypes),  
+  pmsProjectInvoice: pmsProjectInvoice.default(sequelize, Sequelize.DataTypes),  
+
+  
+};
+
+// Run associations
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+export default db;
