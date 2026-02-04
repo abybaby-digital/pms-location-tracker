@@ -7,7 +7,8 @@ export const getLocationById = async (location_id) => {
     where: {
       id: location_id,
     },
+    raw: true,
   });
 
-  return location.dataValues;
+  return location;
 };

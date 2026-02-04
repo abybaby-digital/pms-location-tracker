@@ -1,8 +1,11 @@
 import { locationHelper } from "../../../helpers/index.js";
-import { checkinService, locationService } from "../../../services/index.js";
+import { activityLogService, checkinService, locationService } from "../../../services/index.js";
 
 export const autoCheckin = async (req, res) => {
-  const { latitude, longitude } = req.body;
+  const { latitude, longitude, location_id } = req.body;
+
+  console.log("hello");
+
   const userId = req.userDetails.userId;
 
   const box = locationHelper.getBoundingBox(latitude, longitude, 1);
@@ -23,12 +26,13 @@ export const autoCheckin = async (req, res) => {
       });
     }
     await checkinService.updateUserCheckIn(userId, latitude, longitude);
+    await activityLogService.createActivityLog(userId, location_id, "5"); //checkOut activity
     return res.ok({
       result: {
         status: 200,
         success: true,
         message: "Check-out successful",
-        response: null,
+        response: 0,
       },
     });
   }
@@ -45,7 +49,7 @@ export const autoCheckin = async (req, res) => {
     }
   }
 
-  if (minDistance <= 300) {
+  if (minDistance <= 700) {
     const newCheckin = await checkinService.getUserCheckin_Status(userId);
 
     if (newCheckin) {
@@ -54,12 +58,12 @@ export const autoCheckin = async (req, res) => {
           status: 200,
           success: true,
           message: "Already check in",
-          response: null,
+          response: 1,
         },
       });
     }
     await checkinService.createUserCheckIn(userId, nearest.id, latitude, longitude);
-
+    await activityLogService.createActivityLog(userId, location_id, "4"); // checkIn activity
     // const checkinRecord = await db.pmsUserCheckin.findOne({
     //   where: {
     //     user_id: userId,
@@ -78,7 +82,7 @@ export const autoCheckin = async (req, res) => {
         status: 200,
         success: true,
         message: "Check-in successful",
-        response: null,
+        response: 1,
       },
     });
   }
@@ -96,13 +100,14 @@ export const autoCheckin = async (req, res) => {
     });
   }
   await checkinService.updateUserCheckIn(userId, latitude, longitude);
+  await activityLogService.createActivityLog(userId, location_id, "5");
 
   return res.ok({
     result: {
       status: 200,
       success: true,
       message: "Check-out successful",
-      response: null,
+      response: 0,
     },
   });
 };

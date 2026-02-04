@@ -1,6 +1,6 @@
 import { getAllLocationTypes } from "./getAllLocationType.js";
 import { getAllVehicleBrand } from "./getVehicleBrand.js";
 import { addVehicleBrand } from "./addVehicleBrand.js";
-import { projectReport } from "./projectReport.js";
+import { logHistoryController } from "./logHistoryController.js";
 
-export { getAllLocationTypes, addVehicleBrand, getAllVehicleBrand, projectReport };
+export { logHistoryController, getAllLocationTypes, addVehicleBrand, getAllVehicleBrand };

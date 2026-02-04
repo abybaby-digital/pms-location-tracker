@@ -1,22 +1,34 @@
 import model from "../../models/index.js";
 import { literal, Op } from "sequelize";
-import pmsLocationType from "../../models/pmsLocationType.js";
+import db from "../../models/index.js";
 
 const { pmsLocation } = model;
 
 export const getLocationByPinCode = async (pincode, distanceFormula) => {
-  const locations = await pmsLocation.findAll({
-    where: {
-      pincode: String(pincode),
-    },
+  const locations = await db.pmsLocation.findAll({
+    where: { pincode: String(pincode) },
+
+    include: [
+      {
+        model: db.pmsLocationType,
+        as: "location_type",
+        attributes: ["location_type_name"],
+      },
+    ],
+
     attributes: {
       include: [[literal(distanceFormula), "distance_in_km"]],
     },
-    raw: true,
+
     order: [[literal("distance_in_km"), "ASC"]],
   });
 
-  return locations;
+  const response = locations.map((loc) => ({
+    ...loc.get(), // convert Sequelize instance → plain object
+    location_type_name: loc.location_type?.location_type_name,
+    location_type: undefined, // remove nested object
+  }));
+  return response;
 };
 
 export const getLocationFroCheckIn = async (box) => {

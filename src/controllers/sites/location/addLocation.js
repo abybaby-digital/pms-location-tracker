@@ -49,11 +49,9 @@ export const addLocation = async (req, res, next) => {
     res.status(201).json({
       result: {
         success: true,
+        status: 201,
         message: "Location added successfully",
-        response: {
-          location_id: location.id,
-          location_type: location_name_by_id.location_type_name,
-        },
+        response: 1,
       },
     });
   } catch (error) {

@@ -39,18 +39,23 @@ export default (sequelize, DataTypes) => {
       },
 
       number_of_drivers: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         defaultValue: 0,
       },
 
       number_of_fleets: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         defaultValue: 0,
       },
 
       number_of_vehicles: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         defaultValue: 0,
+      },
+      number_of_brand_vehicle: {
+        type: DataTypes.BIGINT,
+        defaultValue: 0,
+        allowNull: true,
       },
 
       brand_id: {

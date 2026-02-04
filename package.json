@@ -12,12 +12,15 @@
   },
   "repository": {
     "type": "git",
+    "url": "git+https://github.com/divii-school/11-db-backend.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
+    "url": "https://github.com/divii-school/11-db-backend/issues"
   },
+  "homepage": "https://github.com/divii-school/11-db-backend#readme",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.840.0",
     "adm-zip": "^0.5.9",

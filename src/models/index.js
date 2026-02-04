@@ -13,9 +13,7 @@ import * as pmsUserCheckin from "./pmsUserCheckin.js";
 import * as pmsStandDetails from "./pmsStandDetails.js";
 import * as pmsLocationType from "./pmsLocationType.js";
 import * as pmsVehicle from "./pmsVehicle.js";
-import * as pmsProject from "./pmsProject.js";
-import * as pmsFinancialYear from "./pmsFinancialYear.js";
-import * as pmsProjectInvoice from "./pmsProjectInvoice.js";
+import * as pmsUser_activities from "./pmsUserActivityLog.js";
 
 // Initialize models
 const db = {
@@ -30,11 +28,7 @@ const db = {
   pmsStandDetails: pmsStandDetails.default(sequelize, Sequelize.DataTypes),
   pmsLocationType: pmsLocationType.default(sequelize, Sequelize.DataTypes),
   pmsVehicle: pmsVehicle.default(sequelize, Sequelize.DataTypes),
-  pmsProject: pmsProject.default(sequelize, Sequelize.DataTypes),  
-  pmsFinancialYear: pmsFinancialYear.default(sequelize, Sequelize.DataTypes),  
-  pmsProjectInvoice: pmsProjectInvoice.default(sequelize, Sequelize.DataTypes),  
-
-  
+  pmsUser_activities: pmsUser_activities.default(sequelize, Sequelize.DataTypes),
 };
 
 // Run associations

@@ -7,9 +7,7 @@ export const getCurrentFinancialYearId = async () => {
   const startMonth = 4; // April
 
   const startYear =
-    currentDate.month() + 1 >= startMonth
-      ? currentDate.year()
-      : currentDate.year() - 1;
+    currentDate.month() + 1 >= startMonth ? currentDate.year() : currentDate.year() - 1;
 
   const endYear = startYear + 1;
 

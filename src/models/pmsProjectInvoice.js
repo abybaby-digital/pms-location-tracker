@@ -155,7 +155,7 @@ export default (sequelize, DataTypes) => {
       modelName: "pmsProjectInvoice",
       tableName: TABLES.PROJECT_INVOICES_TABLE || "project_invoices",
       timestamps: false, // DB handles timestamps
-    }
+    },
   );
 
   return pmsProjectInvoice;

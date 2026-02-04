@@ -9,6 +9,20 @@ export default (sequelize, DataTypes) => {
         foreignKey: "location_id",
         as: "checkins",
       });
+      // pmsLocation model
+      this.belongsTo(models.pmsLocationType, {
+        foreignKey: "location_type_id",
+        targetKey: "id",
+        as: "location_type",
+      });
+      this.hasMany(models.pmsUser_activities, {
+        foreignKey: "location_id",
+        as: "logs",
+      });
+      this.hasOne(models.pmsStandDetails, {
+        foreignKey: "site_locations_id",
+        as: "stand_details",
+      });
     }
   }
 
@@ -43,6 +57,10 @@ export default (sequelize, DataTypes) => {
       pincode: {
         type: DataTypes.STRING(10),
         allowNull: false,
+      },
+      number_of_people: {
+        type: DataTypes.BIGINT,
+        allowNull: true,
       },
 
       contact_person_name: {

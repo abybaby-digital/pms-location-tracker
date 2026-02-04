@@ -9,39 +9,33 @@ export const projectReport = async (req, res, next) => {
     const roleId = req.userDetails?.role_id || null;
 
     // Get current financial year id
-    const currentFinancialYear =
-      await commonService.getCurrentFinancialYearId();
+    const currentFinancialYear = await commonService.getCurrentFinancialYearId();
 
     // Get report data
     const results = await commonService.getProjectReportData(
       loginUserId,
       roleId,
-      currentFinancialYear
+      currentFinancialYear,
     );
 
     return res.ok({
-    result: {
-      status: 200,
-      success: true,
-      message: "all data fetched",
-      response: results,
-    },
-  });
+      result: {
+        status: 200,
+        success: true,
+        message: "all data fetched",
+        response: results,
+      },
+    });
   } catch (error) {
     console.error("Project Report Error:", error);
     next(error);
   }
 };
 
-
-
-
-
 // import models from "../../../models/index.js";
 // import { envs } from "../../../config/envs.js";
 // import { Op } from "sequelize";
 // import { commonService } from "../../../services/index.js";
-
 
 // export const projectReport = async (req, res, next) => {
 //   try {
@@ -53,9 +47,6 @@ export const projectReport = async (req, res, next) => {
 
 //     const projectReport = await commonService.getProjectReportData(loginUserId,roleId,currentFinancialYear);
 
-    
-    
-
 //     res.ok({
 //       total_records: results.length,
 //       results,
@@ -65,5 +56,3 @@ export const projectReport = async (req, res, next) => {
 //     next(error);
 //   }
 // };
-
-
