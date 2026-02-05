@@ -2,7 +2,10 @@ import { locationHelper } from "../../../helpers/index.js";
 import { activityLogService, locationService, sessionService } from "../../../services/index.js";
 
 export const autoCheckin = async (req, res) => {
-  const { latitude, longitude } = req.body;
+  const { latitude, longitude, location_id } = req.body;
+
+  console.log("hello");
+
   const userId = req.userDetails.userId;
 
   const userActiveSession = await sessionService.getActiveSession(userId);
@@ -71,7 +74,7 @@ export const autoCheckin = async (req, res) => {
   // 4️⃣ Within range → AUTO CHECKIN
   if (minDistance <= 700) {
     const activeSession = await sessionService.getActiveSession(userId);
-    
+
     const userActivityLog = await activityLogService.getLogsBySession(activeSession.id);
 
     if (activeSession.activity_status === "ACTIVE") {
