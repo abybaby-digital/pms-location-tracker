@@ -2,9 +2,7 @@ import { locationHelper } from "../../../helpers/index.js";
 import { activityLogService, checkinService, locationService } from "../../../services/index.js";
 
 export const autoCheckin = async (req, res) => {
-  const { latitude, longitude, location_id } = req.body;
-
-  console.log("hello");
+  const {location_id, latitude, longitude } = req.body;
 
   const userId = req.userDetails.userId;
 
