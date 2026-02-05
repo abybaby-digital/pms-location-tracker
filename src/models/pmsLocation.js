@@ -15,7 +15,7 @@ export default (sequelize, DataTypes) => {
         targetKey: "id",
         as: "location_type",
       });
-      this.hasMany(models.pmsUser_activities, {
+      this.hasMany(models.pmsUser_activitiesLog, {
         foreignKey: "location_id",
         as: "logs",
       });

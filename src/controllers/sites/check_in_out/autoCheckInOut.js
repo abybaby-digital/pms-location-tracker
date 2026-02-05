@@ -1,40 +1,61 @@
 import { locationHelper } from "../../../helpers/index.js";
-import { activityLogService, checkinService, locationService } from "../../../services/index.js";
+import { activityLogService, locationService, sessionService } from "../../../services/index.js";
 
 export const autoCheckin = async (req, res) => {
-  const { latitude, longitude, location_id } = req.body;
-
+  const { latitude, longitude } = req.body;
   const userId = req.userDetails.userId;
 
-  const box = locationHelper.getBoundingBox(latitude, longitude, 1);
+  const userActiveSession = await sessionService.getActiveSession(userId);
 
-  const locations = await locationService.getLocationFroCheckIn(box);
-
-  if (!locations.length) {
-    const isUserExist = await checkinService.getUserCheckin_Status(userId);
-
-    if (!isUserExist) {
-      return res.ok({
-        result: {
-          status: 200,
-          success: true,
-          message: "No active check-In found",
-          response: null,
-        },
-      });
-    }
-    await checkinService.updateUserCheckIn(userId, latitude, longitude);
-    await activityLogService.createActivityLog(userId, location_id, "5"); //checkOut activity
+  if (!userActiveSession) {
     return res.ok({
       result: {
         status: 200,
         success: true,
-        message: "Check-out successful",
+        message: "please do manual checkin first",
+        response: null,
+      },
+    });
+  }
+
+  // 1️⃣ Find nearby locations using bounding box
+  const box = locationHelper.getBoundingBox(latitude, longitude, 1);
+  const locations = await locationService.getLocationFroCheckIn(box);
+
+  // 2️⃣ No nearby location → AUTO CHECKOUT if user is checked-in
+  if (!locations.length) {
+    const activeSession = await sessionService.getActiveSession(userId);
+
+    if (!activeSession) {
+      return res.ok({
+        result: {
+          status: 200,
+          success: true,
+          message: "No active check-in found",
+          response: null,
+        },
+      });
+    }
+
+    await activityLogService.createActivityLog({
+      session_id: activeSession.id,
+      user_id: userId,
+      location_id: activeSession.location_id,
+      activity_type: 4, // AUTO_CHECKOUT
+      activity_source: "AUTO",
+    });
+
+    return res.ok({
+      result: {
+        status: 200,
+        success: true,
+        message: "Auto check-out successful",
         response: 0,
       },
     });
   }
 
+  // 3️⃣ Find nearest location
   let nearest = null;
   let minDistance = Infinity;
 
@@ -47,64 +68,79 @@ export const autoCheckin = async (req, res) => {
     }
   }
 
+  // 4️⃣ Within range → AUTO CHECKIN
   if (minDistance <= 700) {
-    const newCheckin = await checkinService.getUserCheckin_Status(userId);
+    const activeSession = await sessionService.getActiveSession(userId);
+    
+    const userActivityLog = await activityLogService.getLogsBySession(activeSession.id);
 
-    if (newCheckin) {
-      return res.ok({
-        result: {
-          status: 200,
-          success: true,
-          message: "Already check in",
-          response: 1,
-        },
-      });
+    if (activeSession.activity_status === "ACTIVE") {
+      if (userActivityLog[0].activity_type === 1 || userActivityLog[0].activity_type === 3) {
+        return res.ok({
+          result: {
+            status: 200,
+            success: true,
+            message: "Already checked in",
+            response: 1,
+          },
+        });
+      }
+      if (userActivityLog[0].activity_type === 4) {
+        await activityLogService.createActivityLog({
+          session_id: activeSession.id,
+          user_id: userId,
+          location_id: nearest.id,
+          activity_type: 3, // AUTO_CHECKIN
+          activity_source: "AUTO",
+        });
+        return res.ok({
+          result: {
+            status: 200,
+            success: true,
+            message: "Auto check-in successful",
+            response: 0,
+          },
+        });
+      }
     }
-    await checkinService.createUserCheckIn(userId, nearest.id, latitude, longitude);
-    await activityLogService.createActivityLog(userId, location_id, "4"); // checkIn activity
-    // const checkinRecord = await db.pmsUserCheckin.findOne({
-    //   where: {
-    //     user_id: userId,
-    //   },
-    //   include: [
-    //     {
-    //       model: db.pmsLocation,
-    //       as: "location",
-    //       attributes: ["location_name", "address"],
-    //     },
-    //   ],
-    // });
 
     return res.ok({
       result: {
         status: 200,
         success: true,
-        message: "Check-in successful",
-        response: 1,
-      },
-    });
-  }
-
-  const isUserExist = await checkinService.getUserCheckin_Status(userId);
-
-  if (!isUserExist) {
-    return res.ok({
-      result: {
-        status: 200,
-        success: true,
-        message: "No active check-In found",
+        message: "please do manual checkin first",
         response: null,
       },
     });
   }
-  await checkinService.updateUserCheckIn(userId, latitude, longitude);
-  await activityLogService.createActivityLog(userId, location_id, "5");
+
+  // 5️⃣ Out of range → AUTO CHECKOUT
+  const activeSession = await sessionService.getActiveSession(userId);
+
+  if (!activeSession) {
+    return res.ok({
+      result: {
+        status: 200,
+        success: true,
+        message: "No active check-in found",
+        response: null,
+      },
+    });
+  }
+
+  await activityLogService.createActivityLog({
+    session_id: activeSession.id,
+    user_id: userId,
+    location_id: activeSession.location_id,
+    activity_type: 4, // AUTO_CHECKOUT
+    activity_source: "AUTO",
+  });
 
   return res.ok({
     result: {
       status: 200,
       success: true,
-      message: "Check-out successful",
+      message: "Auto check-out successful",
       response: 0,
     },
   });

@@ -1,4 +1,6 @@
 import { createActivityLog } from "./createActivityLog.js";
-import { getLogHistory, loghistory } from "./getLogHistory.js";
+import { deleteLogsBySession } from "./deleteLogBySession.js";
+import { getLogsBySession } from "./getLogBySession.js";
+import { logHistory } from "./getLogHistory.js";
 
-export { createActivityLog, getLogHistory, loghistory };
+export { createActivityLog, getLogsBySession, deleteLogsBySession, logHistory };
