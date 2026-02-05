@@ -4,8 +4,6 @@ import { activityLogService, checkinService, locationService } from "../../../se
 export const autoCheckin = async (req, res) => {
   const { latitude, longitude, location_id } = req.body;
 
-  console.log("hello");
-
   const userId = req.userDetails.userId;
 
   const box = locationHelper.getBoundingBox(latitude, longitude, 1);
