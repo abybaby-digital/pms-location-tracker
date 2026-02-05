@@ -15,7 +15,7 @@ export const locationView = async (req, res) => {
       result: {
         status: 200,
         success: true,
-        message: "new locations fetched successfully",
+        message: "",
         response: locations,
       },
     });

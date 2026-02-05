@@ -1,79 +1,71 @@
 import { locationHelper } from "../../../helpers/index.js";
-import { checkinService, locationService } from "../../../services/index.js";
+import { activityLogService, checkinService, locationService } from "../../../services/index.js";
 
 export const manualCheckIn = async (req, res) => {
-  const { location_id, latitude, longitude } = req.body;
+  const { location_id, latitude, longitude, is_checkout } = req.body;
   const userId = req.userDetails.userId;
-  console.log(userId);
 
   // work in progress
 
-  const location = await locationService.getLocationById(location_id);
-
-  console.log(location);
-  if (!location) {
+  if (is_checkout) {
+    await checkinService.updateUserCheckIn(userId, latitude, longitude);
+    await activityLogService.createActivityLog(userId, location_id, "0"); // CheckOut activity
     return res.ok({
       result: {
-        status: 404,
-        success: false,
-        message: "No location Exist please add!",
-        response: null,
+        status: 200,
+        success: true,
+        message: "CheckOut successful",
+        response: 0,
+      },
+    });
+  }
+
+  const location = await locationService.getLocationById(location_id);
+
+  if (!location) {
+    await checkinService.updateUserCheckIn(userId, latitude, longitude);
+    await activityLogService.createActivityLog(userId, location.id, "0"); // CheckOut activity
+    return res.ok({
+      result: {
+        status: 200,
+        success: true,
+        message: "CheckOut successfull",
+        response: 0,
       },
     });
   }
 
   const checkinUserData = await checkinService.getcheckInUser(userId, location_id);
 
-  if (checkinUserData) {
+  const getDiastanceFromExistinCheckIn = locationHelper.distanceInMeters(
+    Number(latitude),
+    Number(longitude),
+    Number(location.latitude),
+    Number(location.longitude),
+  );
+
+  if (getDiastanceFromExistinCheckIn >= 700 && checkinUserData) {
+    await checkinService.updateUserCheckIn(userId, latitude, longitude);
+    await activityLogService.createActivityLog(userId, location.id, "0");
+
     return res.ok({
       result: {
         status: 200,
         success: true,
-        message: "User already checkedin",
-        response: null,
+        message: "checkOut successfull",
+        response: 0,
       },
     });
   } else {
-    await checkinService.updateUserCheckIn(userId, latitude, longitude);
-  }
-
-  const getDiastance = locationHelper.distanceInMeters(
-    Number(longitude),
-    Number(latitude),
-    Number(location.longitude),
-    Number(location.latitude),
-  );
-  if (getDiastance <= 300) {
-    const existingCheckIn = await checkinService.getcheckInUser(userId, location_id);
-
-    if (existingCheckIn) {
-      return res.ok({
-        result: {
-          status: 200,
-          success: true,
-          message: "Already checkin to this location",
-          response: null,
-        },
-      });
-    }
-
     await checkinService.createUserCheckIn(userId, location_id, latitude, longitude);
+    await activityLogService.createActivityLog(userId, location_id, "1"); // checkIn activity
     return res.status(201).json({
       result: {
         status: 201,
         success: true,
         message: "user checkin successfull",
-        response: null,
+        response: 1,
       },
     });
   }
-
-  return res.ok({
-    result: {
-      status: 200,
-      success: true,
-      message: "you are not in range please move closer",
-      response: null,
-    },
-  });
 };

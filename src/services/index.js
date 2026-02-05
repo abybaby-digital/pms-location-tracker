@@ -7,6 +7,7 @@ import * as locationService from "./location/index.js";
 import * as commonService from "./common/index.js";
 import * as checkinService from "./checkin/index.js";
 import * as vehicleService from "./vehicle/index.js";
+import * as activityLogService from "./activityLog/index.js";
 
 export {
   userService,
@@ -18,4 +19,5 @@ export {
   commonService,
   checkinService,
   vehicleService,
+  activityLogService,
 };

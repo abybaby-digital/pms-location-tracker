@@ -5,7 +5,6 @@ export async function createLocation(payload, transaction = null) {
 
   return db.pmsLocation.create(
     {
-      
       location_name: payload.location_name,
       location_type_id: payload.location_type_id,
       latitude: Number(payload.latitude),
@@ -14,6 +13,7 @@ export async function createLocation(payload, transaction = null) {
       contact_person_name: payload.contact_person_name,
       contact_person_number: payload.contact_person_number,
       start_time: payload.start_time,
+      number_of_people: payload.number_of_people || null,
       end_time: payload.end_time,
       created_by: payload.created_by || null,
     },

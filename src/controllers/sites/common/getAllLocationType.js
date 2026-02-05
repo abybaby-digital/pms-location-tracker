@@ -8,7 +8,7 @@ export const getAllLocationTypes = async (req, res) => {
       result: {
         status: 200,
         success: true,
-        message: "Location types fetched successfully",
+        message: "",
         response: locationTypes,
       },
     });

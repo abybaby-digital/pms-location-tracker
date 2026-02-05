@@ -3,6 +3,7 @@ import { vehicleService } from "../../../services/index.js";
 export const addVehicleBrand = async (req, res) => {
   const UserId = req.userDetails.userId;
   const { brand_name } = req.body;
+  console.log(brand_name);
 
   const dbVehicleBrand = await vehicleService.getVehicleByBrandName(brand_name);
 

@@ -28,7 +28,6 @@ export default (sequelize, DataTypes) => {
       user_id: {
         type: DataTypes.BIGINT.UNSIGNED,
         allowNull: false,
-        unique: true,
       },
 
       location_id: {

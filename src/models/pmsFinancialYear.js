@@ -45,7 +45,7 @@ export default (sequelize, DataTypes) => {
       modelName: "pmsFinancialYear",
       tableName: TABLES.FINANCIAL_YEARS_TABLE || "financial_years",
       timestamps: false, // DB handles timestamps
-    }
+    },
   );
 
   return pmsFinancialYear;

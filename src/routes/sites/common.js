@@ -18,7 +18,6 @@ commonRoutes.get(
   validateAccessToken,
   siteController.common.getAllVehicleBrand,
 );
-
 commonRoutes.post(
   "/add-brand",
   validateApiKey,
@@ -26,11 +25,11 @@ commonRoutes.post(
   siteController.common.addVehicleBrand,
 );
 
-commonRoutes.post(
-  "/project-report",
+commonRoutes.get(
+  "/log-history",
   validateApiKey,
   validateAccessToken,
-  siteController.common.projectReport,
+  siteController.common.logHistoryController,
 );
 
 export { commonRoutes };

@@ -11,6 +11,7 @@ export const createStandDetails = async (payload, transaction = null, location) 
       number_of_drivers: payload.number_of_drivers || 0,
       number_of_fleets: payload.number_of_fleets || 0,
       number_of_vehicles: payload.number_of_vehicles || 0,
+      number_ofbrand_vehicle: payload.number_of_brand_vehicle || 0,
       brand_id: payload.brand_id || null,
       created_by: payload.created_by,
     },

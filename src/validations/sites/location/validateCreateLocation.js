@@ -33,7 +33,6 @@ export const validateCreateLocation = celebrate({
       "any.required": "Contact person name is required",
       "string.empty": "Contact person name cannot be empty",
     }),
-
     contact_person_number: Joi.string()
       .pattern(/^[0-9]{10}$/)
       .required()
@@ -60,41 +59,53 @@ export const validateCreateLocation = celebrate({
       }),
 
     // ✅ CONDITIONAL FIELDS
-    number_of_drivers: Joi.number()
-      .integer()
-      .when("location_type_id", {
-        is: 3,
-        then: Joi.required().messages({
-          "any.required": "Number of drivers is required when location type is 3",
-        }),
-        otherwise: Joi.optional(),
-      }),
-
-    number_of_fleets: Joi.number()
-      .integer()
-      .when("location_type_id", {
-        is: 3,
-        then: Joi.required().messages({
-          "any.required": "Number of fleets is required when location type is 3",
-        }),
-        otherwise: Joi.optional(),
-      }),
-
-    number_of_vehicles: Joi.number()
-      .integer()
-      .when("location_type_id", {
-        is: 3,
-        then: Joi.required().messages({
-          "any.required": "Number of vehicles is required when location type is 3",
-        }),
-        otherwise: Joi.optional(),
-      }),
-
-    brand_id: Joi.string().when("location_type_id", {
+    number_of_drivers: Joi.string().when("location_type_id", {
       is: 3,
       then: Joi.required().messages({
-        "any.required": "Brand is required when location type is 3",
-        "string.empty": "Brand cannot be empty",
+        "any.required": "Number of drivers is required when location type is 3",
+      }),
+      otherwise: Joi.optional(),
+    }),
+    number_of_people: Joi.string().when("location_type_id", {
+      is: Joi.valid(1, 2, 4),
+      then: Joi.required().messages({
+        "any.required": "Number of people is required when location type is 3",
+      }),
+      otherwise: Joi.optional(),
+    }),
+
+    number_of_fleets: Joi.string().when("location_type_id", {
+      is: 3,
+      then: Joi.required().messages({
+        "any.required": "Number of fleets is required when location type is 3",
+      }),
+      otherwise: Joi.optional(),
+    }),
+
+    number_of_vehicles: Joi.string().when("location_type_id", {
+      is: 3,
+      then: Joi.required().messages({
+        "any.required": "Number of vehicles is required when location type is 3",
+      }),
+      otherwise: Joi.optional(),
+    }),
+
+    brand_id: Joi.number()
+      .integer()
+      .when("location_type_id", {
+        is: 3,
+        then: Joi.required().messages({
+          "any.required": "Brand is required when location type is 3",
+          "string.empty": "Brand cannot be empty",
+        }),
+        otherwise: Joi.optional(),
+      }),
+
+    number_of_brand_vehicle: Joi.string().when("location_type_id", {
+      is: 3,
+      then: Joi.required().messages({
+        "any.required": "Number of brand vehicles is required when location type is 3",
+        "string.empty": "Number of brand vehicles cannot be empty",
       }),
       otherwise: Joi.optional(),
     }),
