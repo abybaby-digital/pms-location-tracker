@@ -19,7 +19,7 @@ export const addVehicleBrand = async (req, res) => {
       },
     });
   }
-
+ 
   const vehicle = await vehicleService.addVehicleBrand(brand_name, UserId);
 
   return res.ok({
