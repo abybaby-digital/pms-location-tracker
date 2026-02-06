@@ -47,7 +47,7 @@ export default (sequelize, DataTypes) => {
       activity_type: {
         type: DataTypes.TINYINT.UNSIGNED,
         allowNull: false,
-        comment: "1=CHECKIN,0=CHECKOUT,3=AUTO_CHECKIN,4=AUTO_CHECKOUT,5=FORM_SUBMIT",
+        comment: "1=CHECKIN,0=CHECKOUT,3=AUTO_CHECKIN,4=AUTO_CHECKOUT,5=FORM_SUBMIT,6=FORM_UPDATE",
       },
 
       activity_source: {

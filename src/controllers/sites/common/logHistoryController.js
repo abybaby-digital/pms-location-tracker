@@ -4,9 +4,18 @@ export const logHistoryController = async (req, res) => {
   const userId = req.userDetails.userId;
 
   const rows = await activityLogService.logHistory(userId);
+
   if (!rows.length) {
     return res.ok({
-      result: { success: true, status: 200, message: "", response: null },
+      result: {
+        success: true,
+        status: 200,
+        message: "",
+        response: {
+          current_work: null,
+          previous_work: [],
+        },
+      },
     });
   }
 
@@ -18,29 +27,27 @@ export const logHistoryController = async (req, res) => {
     5: "FORM_SUBMIT",
   };
 
-  const grouped = {};
+  const sessionsGrouped = {};
 
   for (const row of rows) {
-    const locationId = row.location.id; // ✅ FIX
+    const sessionId = row.session.id; // ✅ GROUP BY SESSION
 
-    if (!grouped[locationId]) {
-      grouped[locationId] = {
+    if (!sessionsGrouped[sessionId]) {
+      sessionsGrouped[sessionId] = {
+        session_id: sessionId,
+        activity_status: row.session.activity_status,
+
         id: row.location.id,
         location_name: row.location.location_name,
         location_type_id: row.location.location_type_id,
         latitude: row.location.latitude,
         longitude: row.location.longitude,
         pincode: row.location.pincode,
-
-        checkin: 0,
-        checkout: 0,
-
         number_of_people: row.location.number_of_people,
         contact_person_name: row.location.contact_person_name,
         contact_person_number: row.location.contact_person_number,
         start_time: row.location.start_time,
         end_time: row.location.end_time,
-
         status: row.location.status,
         created_at: row.location.created_at,
         updated_at: row.location.updated_at,
@@ -55,41 +62,56 @@ export const logHistoryController = async (req, res) => {
       };
     }
 
-    // ✅ push activity log
-    grouped[locationId].logs.push({
+    sessionsGrouped[sessionId].logs.push({
       id: row.id,
       activity_type: row.activity_type,
       activity_time: row.activity_time,
     });
 
-    // ✅ compute latest status
     const activityTime = new Date(row.activity_time);
 
-    if (!grouped[locationId]._latestTime || activityTime > grouped[locationId]._latestTime) {
-      grouped[locationId]._latestTime = activityTime;
+    if (
+      !sessionsGrouped[sessionId]._latestTime ||
+      activityTime > sessionsGrouped[sessionId]._latestTime
+    ) {
+      sessionsGrouped[sessionId]._latestTime = activityTime;
 
       const status = ACTIVITY_MAP[row.activity_type];
-      grouped[locationId].current_status = status;
+      sessionsGrouped[sessionId].current_status = status;
 
-      grouped[locationId].checkin = status === "CHECK_IN" || status === "RECHECK_IN" ? 1 : 0;
+      sessionsGrouped[sessionId].checkin = status === "CHECK_IN" || status === "RECHECK_IN" ? 1 : 0;
 
-      grouped[locationId].checkout = status === "CHECK_OUT" || status === "RECHECK_OUT" ? 1 : 0;
+      sessionsGrouped[sessionId].checkout =
+        status === "CHECK_OUT" || status === "RECHECK_OUT" ? 1 : 0;
     }
   }
 
-  const locations = Object.values(grouped);
+  const allSessions = Object.values(sessionsGrouped);
 
-  // ✅ pick latest location globally
-  const latestLocation = locations.reduce((a, b) => (b._latestTime > a._latestTime ? b : a));
+  let currentWork = null;
+  const previousWork = [];
 
-  delete latestLocation._latestTime;
+  for (const session of allSessions) {
+    delete session._latestTime;
+
+    if (session.activity_status === "ACTIVE") {
+      currentWork = session;
+    } else {
+      delete session.checkin;
+      delete session.checkout;
+      previousWork.push(session);
+    }
+  }
 
   return res.ok({
     result: {
       success: true,
       status: 200,
       message: "",
-      response: latestLocation,
+      response: {
+        current_work: currentWork,
+        previous_work: previousWork,
+      },
     },
   });
 };
