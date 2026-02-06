@@ -4,7 +4,7 @@ import { activityLogService, locationService, sessionService } from "../../../se
 export const autoCheckin = async (req, res) => {
   const { latitude, longitude, location_id } = req.body;
 
-  console.log("hello");
+  console.log(latitude, longitude);
 
   const userId = req.userDetails.userId;
 
@@ -16,7 +16,7 @@ export const autoCheckin = async (req, res) => {
         status: 200,
         success: true,
         message: "please do manual checkin first",
-        response: null,
+        response: 2,
       },
     });
   }
@@ -36,6 +36,19 @@ export const autoCheckin = async (req, res) => {
           success: true,
           message: "No active check-in found",
           response: null,
+        },
+      });
+    }
+
+    const activityLog = await activityLogService.getLogsBySession(activeSession.id);
+
+    if (activityLog[0].activity_type === 4) {
+      return res.ok({
+        result: {
+          status: 200,
+          success: true,
+          message: "Already checked-out",
+          response: 0,
         },
       });
     }
@@ -101,7 +114,7 @@ export const autoCheckin = async (req, res) => {
             status: 200,
             success: true,
             message: "Auto check-in successful",
-            response: 0,
+            response: 1,
           },
         });
       }
@@ -112,7 +125,7 @@ export const autoCheckin = async (req, res) => {
         status: 200,
         success: true,
         message: "please do manual checkin first",
-        response: null,
+        response: 2,
       },
     });
   }

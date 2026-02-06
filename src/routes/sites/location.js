@@ -17,6 +17,7 @@ locationRouter.post(
   "/location-view",
   validateApiKey,
   validateAccessToken,
+  siteValidation.locationValidation.validateLocationView,
   siteController.location.locationView,
 );
 

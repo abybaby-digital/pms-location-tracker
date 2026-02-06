@@ -1,8 +1,38 @@
 import db from "../../models/index.js";
 
 export const logHistory = async (userId) => {
-  const rows = await db.pmsUser_activitiesLog.findAll({
+  return await db.pmsUser_activitiesLog.findAll({
     where: { user_id: userId },
+    attributes: ["id", "session_id", "activity_type", "activity_time"],
+    include: [
+      {
+        model: db.pmsUserLocationSessions,
+        as: "session",
+        attributes: ["id", "activity_status"],
+      },
+      {
+        model: db.pmsLocation,
+        as: "location",
+        include: [
+          {
+            model: db.pmsLocationType,
+            as: "location_type",
+            attributes: ["location_type_name"],
+          },
+        ],
+      },
+    ],
+    order: [["activity_time", "ASC"]],
+    raw: true,
+    nest: true,
+  });
+};
+export const closedLogHistory = async (userId, sessionId) => {
+  const rows = await db.pmsUser_activitiesLog.findAll({
+    where: {
+      user_id: userId,
+      session_id: sessionId,
+    },
     attributes: ["id", "activity_type", "activity_time"],
     include: [
       {

@@ -22,6 +22,7 @@ export const validateAccessToken = async (req, res, next) => {
     if (!decodedData) throw StatusError.unauthorized("");
 
     const userDetails = await userService.getByEmail(decodedData.email);
+
     if (!userDetails) throw StatusError.unauthorized("");
 
     if (userDetails.access_token !== token) {
@@ -46,7 +47,6 @@ export const validateAccessToken = async (req, res, next) => {
       contact_number: userDetails.contact_number,
       access: userDetails.role?.access_type_list || null,
       access_name: accessNames.join(",") || null,
-      access_name: Array.isArray(accessNames) ? accessNames.join(",") : null,
       email_verified_at: userDetails.email_verified_at,
       profile_img: userDetails.profile_img,
       user_details: userDetails.user_details,

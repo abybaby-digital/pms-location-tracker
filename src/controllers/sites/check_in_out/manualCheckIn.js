@@ -32,9 +32,20 @@ export const manualCheckIn = async (req, res) => {
 
       // close session
       await sessionService.closeSession(activeSession.id, transaction);
+      await activityLogService.createActivityLog(
+        {
+          session_id: activeSession.id,
+          user_id: userId,
+          location_id,
+          activity_type: ACTIVITY_TYPE.CHECKOUT,
+          activity_source: "MANUAL",
+          activity_time: new Date(),
+        },
+        transaction,
+      );
 
       // delete logs of this session
-      await activityLogService.deleteLogsBySession(activeSession.id, transaction);
+      // await activityLogService.deleteLogsBySession(activeSession.id, transaction);
 
       await transaction.commit();
 
@@ -71,7 +82,7 @@ export const manualCheckIn = async (req, res) => {
       if (distance >= 700) {
         await sessionService.closeSession(activeSession.id, transaction);
 
-        await activityLogService.deleteLogsBySession(activeSession.id, transaction);
+        // await activityLogService.deleteLogsBySession(activeSession.id, transaction);
       }
       await transaction.commit();
 

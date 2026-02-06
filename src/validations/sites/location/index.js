@@ -1,4 +1,4 @@
 import { validateCreateLocation } from "./validateCreateLocation.js";
-import { getLocationById } from "./getLocationById.js";
+import { validateLocationView } from "./validateLocationView.js";
 
-export { validateCreateLocation, getLocationById };
+export { validateLocationView, validateCreateLocation };
