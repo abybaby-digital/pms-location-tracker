@@ -85,22 +85,22 @@ export default (sequelize, DataTypes) => {
     },
   );
 
-  pmsProjectTeam.associate = (models) => {
-    pmsProjectTeam.belongsTo(models.project, {
-      foreignKey: "project_id",
-      as: "project",
-    });
+  // pmsProjectTeam.associate = (models) => {
+  //   // pmsProjectTeam.belongsTo(models.project, {
+  //   //   foreignKey: "project_id",
+  //   //   as: "project",
+  //   // });
 
-    pmsProjectTeam.belongsTo(models.user, {
-      foreignKey: "fo_main_id",
-      as: "foMain",
-    });
+  //   // pmsProjectTeam.belongsTo(models.user, {
+  //   //   foreignKey: "fo_main_id",
+  //   //   as: "foMain",
+  //   // });
 
-    pmsProjectTeam.belongsTo(models.user, {
-      foreignKey: "fo_junior_id",
-      as: "foJunior",
-    });
-  };
+  //   // pmsProjectTeam.belongsTo(models.user, {
+  //   //   foreignKey: "fo_junior_id",
+  //   //   as: "foJunior",
+  //   // });
+  // };
 
   return pmsProjectTeam;
 };

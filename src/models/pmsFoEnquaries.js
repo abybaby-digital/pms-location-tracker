@@ -159,32 +159,32 @@ export default (sequelize, DataTypes) => {
     },
   );
 
-  pmsFoEnquaries.associate = (models) => {
-    pmsFoEnquaries.belongsTo(models.project, {
-      foreignKey: "project_id",
-      as: "project",
-    });
+//   pmsFoEnquaries.associate = (models) => {
+//     pmsFoEnquaries.belongsTo(models.pmsProject, {
+//       foreignKey: "project_id",
+//       as: "project",
+//     });
 
-    pmsFoEnquaries.belongsTo(models.projectTeam, {
-      foreignKey: "team_id",
-      as: "team",
-    });
+//     pmsFoEnquaries.belongsTo(models.pmsProjectTeam, {
+//       foreignKey: "team_id",
+//       as: "team",
+//     });
 
-    pmsFoEnquaries.belongsTo(models.user, {
-      foreignKey: "fo_main_id",
-      as: "foMain",
-    });
+//     pmsFoEnquaries.belongsTo(models.pmsUser, {
+//       foreignKey: "fo_main_id",
+//       as: "foMain",
+//     });
 
-    pmsFoEnquaries.belongsTo(models.user, {
-      foreignKey: "fo_junior_id",
-      as: "foJunior",
-    });
+//     pmsFoEnquaries.belongsTo(models.pmsUser, {
+//       foreignKey: "fo_junior_id",
+//       as: "foJunior",
+//     });
 
-    pmsFoEnquaries.belongsTo(models.dealership, {
-      foreignKey: "dealership_id",
-      as: "dealership",
-    });
-  };
+//     //   pmsFoEnquaries.belongsTo(models.dealership, {
+//     //     foreignKey: "dealership_id",
+//     //     as: "dealership",
+//     //   });
+//   };
 
   return pmsFoEnquaries;
 };
