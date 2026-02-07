@@ -2,14 +2,27 @@ import { Model } from "sequelize";
 import { TABLES } from "../utils/constants.js";
 
 export default (sequelize, DataTypes) => {
-  class pmsFoEnquaries extends Model {}
+  class pmsFoEnquaries extends Model {
+    static associate(models) {
+      // ✅ ALWAYS reference via models.*
+      // this.belongsTo(models.pmsProject, {
+      //   foreignKey: "project_id",
+      //   as: "project",
+      // });
+
+      // this.belongsTo(models.pmsProjectTeam, {
+      //   foreignKey: "team_id",
+      //   as: "team",
+      // });
+    }
+  }
 
   pmsFoEnquaries.init(
     {
       id: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
         autoIncrement: true,
+        primaryKey: true,
         allowNull: false,
       },
 
@@ -126,7 +139,6 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.ENUM("0", "1", "2"),
         allowNull: false,
         defaultValue: "1",
-        comment: "0=Inactive, 1=Active, 2=Deleted",
       },
 
       created_at: {
@@ -154,37 +166,11 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "pmsFoEnquaries",
-      tableName: TABLES.FO_ENQUARIES || "fo_enquaries",
+      tableName: TABLES.FO_ENQUIRIES_TABLE || "fo_enquiries",
       timestamps: false,
-    },
+      underscored: true,
+    }
   );
-
-  pmsFoEnquaries.associate = (models) => {
-    pmsFoEnquaries.belongsTo(models.project, {
-      foreignKey: "project_id",
-      as: "project",
-    });
-
-    pmsFoEnquaries.belongsTo(models.projectTeam, {
-      foreignKey: "team_id",
-      as: "team",
-    });
-
-    pmsFoEnquaries.belongsTo(models.user, {
-      foreignKey: "fo_main_id",
-      as: "foMain",
-    });
-
-    pmsFoEnquaries.belongsTo(models.user, {
-      foreignKey: "fo_junior_id",
-      as: "foJunior",
-    });
-
-    pmsFoEnquaries.belongsTo(models.dealership, {
-      foreignKey: "dealership_id",
-      as: "dealership",
-    });
-  };
 
   return pmsFoEnquaries;
 };

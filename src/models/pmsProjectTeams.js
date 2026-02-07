@@ -2,14 +2,36 @@ import { Model } from "sequelize";
 import { TABLES } from "../utils/constants.js";
 
 export default (sequelize, DataTypes) => {
-  class pmsProjectTeam extends Model {}
+  class pmsProjectTeams extends Model {
+    static associate(models) {
+      this.belongsTo(models.pmsProject, {
+        as: "project",
+        foreignKey: "project_id",
+      });
 
-  pmsProjectTeam.init(
+      this.belongsTo(models.pmsFinancialYear, {
+        as: "fyear",
+        foreignKey: "financial_year",
+      });
+
+      this.belongsTo(models.pmsUser, {
+        as: "userCreatedByData",
+        foreignKey: "created_by",
+      });
+
+      this.belongsTo(models.pmsUser, {
+        as: "userUpdatedByData",
+        foreignKey: "updated_by",
+      });
+    }
+  }
+
+  pmsProjectTeams.init(
     {
       id: {
-        type: DataTypes.BIGINT.UNSIGNED,
-        primaryKey: true,
+        type: DataTypes.BIGINT,
         autoIncrement: true,
+        primaryKey: true,
         allowNull: false,
       },
 
@@ -50,8 +72,8 @@ export default (sequelize, DataTypes) => {
 
       status: {
         type: DataTypes.ENUM("0", "1", "2"),
-        defaultValue: "1",
         allowNull: false,
+        defaultValue: "1",
         comment: "0=Inactive, 1=Active, 2=Deleted",
       },
 
@@ -79,28 +101,12 @@ export default (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "pmsProjectTeam",
-      tableName: TABLES.PROJECT_TEAM || "project_team",
-      timestamps: false, // DB handles timestamps
+      modelName: "pmsProjectTeams",
+      tableName: TABLES.PROJECT_TEAMS_TABLE || "project_teams",
+      timestamps: false,
+      underscored: true,
     },
   );
 
-  pmsProjectTeam.associate = (models) => {
-    pmsProjectTeam.belongsTo(models.project, {
-      foreignKey: "project_id",
-      as: "project",
-    });
-
-    pmsProjectTeam.belongsTo(models.user, {
-      foreignKey: "fo_main_id",
-      as: "foMain",
-    });
-
-    pmsProjectTeam.belongsTo(models.user, {
-      foreignKey: "fo_junior_id",
-      as: "foJunior",
-    });
-  };
-
-  return pmsProjectTeam;
+  return pmsProjectTeams;
 };

@@ -74,27 +74,27 @@ export default (sequelize, DataTypes) => {
     },
   );
 
-  pmsFoPaymentAllotment.associate = (models) => {
-    pmsFoPaymentAllotment.belongsTo(models.foPaymentRequisition, {
-      foreignKey: "fo_payment_requisition_id",
-      as: "requisition",
-    });
+  // pmsFoPaymentAllotment.associate = (models) => {
+  //   pmsFoPaymentAllotment.belongsTo(models.foPaymentRequisition, {
+  //     foreignKey: "fo_payment_requisition_id",
+  //     as: "requisition",
+  //   });
 
-    pmsFoPaymentAllotment.belongsTo(models.project, {
-      foreignKey: "project_id",
-      as: "project",
-    });
+  //   pmsFoPaymentAllotment.belongsTo(models.project, {
+  //     foreignKey: "project_id",
+  //     as: "project",
+  //   });
 
-    pmsFoPaymentAllotment.belongsTo(models.clientService, {
-      foreignKey: "client_service_id",
-      as: "clientService",
-    });
+  //   pmsFoPaymentAllotment.belongsTo(models.clientService, {
+  //     foreignKey: "client_service_id",
+  //     as: "clientService",
+  //   });
 
-    pmsFoPaymentAllotment.belongsTo(models.user, {
-      foreignKey: "fo_id",
-      as: "fieldOfficer",
-    });
-  };
+  //   pmsFoPaymentAllotment.belongsTo(models.user, {
+  //     foreignKey: "fo_id",
+  //     as: "fieldOfficer",
+  //   });
+  // };
 
   return pmsFoPaymentAllotment;
 };
