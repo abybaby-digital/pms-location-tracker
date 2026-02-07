@@ -107,6 +107,5 @@ export default (sequelize, DataTypes) => {
       underscored: true,
     },
   );
-
   return pmsProjectTeams;
 };
