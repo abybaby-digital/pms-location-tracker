@@ -3,11 +3,11 @@ import { TABLES } from "../utils/constants.js";
 
 export default (sequelize, DataTypes) => {
   class pmsFinancialYear extends Model {
-    static associate(models) {
-      // define associations if needed later
-      // example:
-      // this.hasMany(models.pmsProject, { foreignKey: "financial_year" });
-    }
+    // static associate(models) {
+    //   // define associations if needed later
+    //   // example:
+    //   // this.hasMany(models.pmsProject, { foreignKey: "financial_year" });
+    // }
   }
 
   pmsFinancialYear.init(

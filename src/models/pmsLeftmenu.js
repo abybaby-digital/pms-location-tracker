@@ -3,11 +3,11 @@ import { TABLES } from "../utils/constants.js";
 
 export default (sequelize, DataTypes) => {
   class pmsLeftMenu extends Model {
-    static associate(models) {
-      // define associations here if needed in future
-      // example:
-      // this.hasMany(models.pmsPermission, { ... })
-    }
+    // static associate(models) {
+    //   // define associations here if needed in future
+    //   // example:
+    //   // this.hasMany(models.pmsPermission, { ... })
+    // }
   }
 
   pmsLeftMenu.init(

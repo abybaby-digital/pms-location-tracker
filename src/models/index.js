@@ -16,6 +16,11 @@ import * as pmsVehicle from "./pmsVehicle.js";
 import * as pmsUser_activitiesLog from "./pmsUser_activity_logs.js";
 import * as pmsUserLocationSessions from "./pmsUser_location_sessions.js";
 import * as pmsFinancialYear from "./pmsFinancialYear.js";
+import * as pmsProjectTeams from "./pmsProjectTeams.js";
+import * as pmsProjectInvoice from "./pmsProjectInvoice.js";
+import * as pmsProject from "./pmsProject.js";
+import * as pmsFoPaymentAllotment from "./pmsAllocatedAmount.js";
+import * as pmsFoEnquaries from "./pmsFoEnquaries.js";
 
 // Initialize models
 const db = {
@@ -33,6 +38,11 @@ const db = {
   pmsUser_activitiesLog: pmsUser_activitiesLog.default(sequelize, Sequelize.DataTypes),
   pmsUserLocationSessions: pmsUserLocationSessions.default(sequelize, Sequelize.DataTypes),
   pmsFinancialYear: pmsFinancialYear.default(sequelize, Sequelize.DataTypes),
+  pmsProjectTeams: pmsProjectTeams.default(sequelize, Sequelize.DataTypes),
+  pmsProjectInvoice: pmsProjectInvoice.default(sequelize, Sequelize.DataTypes),
+  pmsProject: pmsProject.default(sequelize, Sequelize.DataTypes),
+  pmsFoPaymentAllotment: pmsFoPaymentAllotment.default(sequelize, Sequelize.DataTypes),
+  pmsFoEnquaries: pmsFoEnquaries.default(sequelize, Sequelize.DataTypes),
 };
 
 // Run associations
