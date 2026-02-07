@@ -33,5 +33,11 @@ commonRoutes.get(
   validateAccessToken,
   siteController.common.logHistoryController,
 );
+commonRoutes.get(
+  "/financial-year",
+  validateApiKey,
+  validateAccessToken,
+  siteController.common.getfinancialYear,
+);
 
 export { commonRoutes };

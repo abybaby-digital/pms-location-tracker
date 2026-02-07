@@ -79,10 +79,10 @@ export const logHistoryController = async (req, res) => {
       const status = ACTIVITY_MAP[row.activity_type];
       sessionsGrouped[sessionId].current_status = status;
 
-      sessionsGrouped[sessionId].checkin = status === "CHECK_IN" || status === "RECHECK_IN" ? 1 : 0;
+      sessionsGrouped[sessionId].checkin =
+        status === "CHECK_IN" || status === "RECHECK_IN" || status === "RECHECK_OUT" ? 1 : 0;
 
-      sessionsGrouped[sessionId].checkout =
-        status === "CHECK_OUT" || status === "RECHECK_OUT" ? 1 : 0;
+      sessionsGrouped[sessionId].checkout = status === "CHECK_OUT" ? 1 : 0;
     }
   }
 

@@ -4,13 +4,15 @@ import { activityLogService, locationService, sessionService } from "../../../se
 export const autoCheckin = async (req, res) => {
   const { latitude, longitude, location_id } = req.body;
 
-  console.log(latitude, longitude);
+  console.log(latitude, longitude, location_id);
 
   const userId = req.userDetails.userId;
 
+  const dbLocation = await locationService.getLocationById(location_id);
   const userActiveSession = await sessionService.getActiveSession(userId);
 
   if (!userActiveSession) {
+    console.log("no active checkin");
     return res.ok({
       result: {
         status: 200,
@@ -22,14 +24,15 @@ export const autoCheckin = async (req, res) => {
   }
 
   // 1️⃣ Find nearby locations using bounding box
-  const box = locationHelper.getBoundingBox(latitude, longitude, 1);
+  const box = locationHelper.getBoundingBox(dbLocation.latitude, dbLocation.longitude, 1);
   const locations = await locationService.getLocationFroCheckIn(box);
 
   // 2️⃣ No nearby location → AUTO CHECKOUT if user is checked-in
-  if (!locations.length) {
+  if (locations.length == 0) {
     const activeSession = await sessionService.getActiveSession(userId);
 
     if (!activeSession) {
+      console.log("no active checkin");
       return res.ok({
         result: {
           status: 200,
@@ -43,6 +46,7 @@ export const autoCheckin = async (req, res) => {
     const activityLog = await activityLogService.getLogsBySession(activeSession.id);
 
     if (activityLog[0].activity_type === 4) {
+      console.log("already checkout");
       return res.ok({
         result: {
           status: 200,
@@ -60,7 +64,7 @@ export const autoCheckin = async (req, res) => {
       activity_type: 4, // AUTO_CHECKOUT
       activity_source: "AUTO",
     });
-
+    console.log("auto checkout");
     return res.ok({
       result: {
         status: 200,
@@ -92,6 +96,7 @@ export const autoCheckin = async (req, res) => {
 
     if (activeSession.activity_status === "ACTIVE") {
       if (userActivityLog[0].activity_type === 1 || userActivityLog[0].activity_type === 3) {
+        console.log("already checkin");
         return res.ok({
           result: {
             status: 200,
@@ -109,6 +114,8 @@ export const autoCheckin = async (req, res) => {
           activity_type: 3, // AUTO_CHECKIN
           activity_source: "AUTO",
         });
+
+        console.log("auto checkin");
         return res.ok({
           result: {
             status: 200,
@@ -134,6 +141,7 @@ export const autoCheckin = async (req, res) => {
   const activeSession = await sessionService.getActiveSession(userId);
 
   if (!activeSession) {
+    console.log("no active session");
     return res.ok({
       result: {
         status: 200,
@@ -144,6 +152,19 @@ export const autoCheckin = async (req, res) => {
     });
   }
 
+  const userActivityLog = await activityLogService.getLogsBySession(activeSession.id);
+  console.log(userActivityLog);
+  if (userActivityLog[0].activity_type === 4) {
+    console.log("already checkout 4");
+    return res.ok({
+      result: {
+        status: 200,
+        success: true,
+        message: "Already check-out",
+        response: 0,
+      },
+    });
+  }
   await activityLogService.createActivityLog({
     session_id: activeSession.id,
     user_id: userId,
