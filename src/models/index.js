@@ -13,9 +13,21 @@ import * as pmsUserCheckin from "./pmsUserCheckin.js";
 import * as pmsStandDetails from "./pmsStandDetails.js";
 import * as pmsLocationType from "./pmsLocationType.js";
 import * as pmsVehicle from "./pmsVehicle.js";
-import * as pmsUser_activitiesLog from "./pmsUser_activity_logs.js";
-import * as pmsUserLocationSessions from "./pmsUser_location_sessions.js";
+import * as pmsUser_activitiesLog from "./pmsUserActivityLogs.js";
+import * as pmsUserLocationSessions from "./pmsUserLocationSessions.js";
 import * as pmsFinancialYear from "./pmsFinancialYear.js";
+import * as pmsProjectTeams from "./pmsProjectTeams.js";
+import * as pmsProjectInvoice from "./pmsProjectInvoice.js";
+import * as pmsProject from "./pmsProject.js";
+import * as pmsFoPaymentAllotment from "./pmsAllocatedAmount.js";
+import * as pmsFoEnquaries from "./pmsFoEnquaries.js";
+import * as pmsClient from "./pmsClient.js";
+import * as pmsProjectPaymentReceived from "./pmsProjectPaymentReceived.js";
+import * as pmsVerticalHead from "./pmsVerticalHead.js";
+import * as pmsDealership from "./pmsDealership.js";
+import * as pmsFoPaymentRequisition from "./pmsFoPaymentRequisition.js";
+
+
 
 // Initialize models
 const db = {
@@ -33,6 +45,17 @@ const db = {
   pmsUser_activitiesLog: pmsUser_activitiesLog.default(sequelize, Sequelize.DataTypes),
   pmsUserLocationSessions: pmsUserLocationSessions.default(sequelize, Sequelize.DataTypes),
   pmsFinancialYear: pmsFinancialYear.default(sequelize, Sequelize.DataTypes),
+  pmsProjectTeams: pmsProjectTeams.default(sequelize, Sequelize.DataTypes),
+  pmsProjectInvoice: pmsProjectInvoice.default(sequelize, Sequelize.DataTypes),
+  pmsProject: pmsProject.default(sequelize, Sequelize.DataTypes),
+  pmsFoPaymentAllotment: pmsFoPaymentAllotment.default(sequelize, Sequelize.DataTypes),
+  pmsFoEnquaries: pmsFoEnquaries.default(sequelize, Sequelize.DataTypes),
+  pmsClient: pmsClient.default(sequelize, Sequelize.DataTypes),
+  pmsProjectPaymentReceived: pmsProjectPaymentReceived.default(sequelize, Sequelize.DataTypes),
+  pmsVerticalHead: pmsVerticalHead.default(sequelize, Sequelize.DataTypes),
+  pmsDealership: pmsDealership.default(sequelize, Sequelize.DataTypes),
+  pmsFoPaymentRequisition: pmsFoPaymentRequisition.default(sequelize, Sequelize.DataTypes),
+  
 };
 
 // Run associations

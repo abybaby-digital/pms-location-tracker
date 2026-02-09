@@ -68,6 +68,17 @@ export const pagination = async (
   _cutomWhere = cutomWhere ?? {};
   _newInclude = includeArray?.length > 0 ? includeArray : false;
 
+  /////////////////////////////
+  if (searchParams.latestPerLead) {
+    const latestIds = await model.findAll({
+      attributes: [[Sequelize.fn("MAX", Sequelize.col("id")), "id"]],
+      group: ["lead_id"],
+      raw: true,
+    });
+    const latestIdList = latestIds.map((r) => r.id);
+    _cutomWhere.id = { [Op.in]: latestIdList };
+  }
+  /////////////////////////////
   return await model.findAndCountAll({
     attributes: customAttributes,
     offset: limitQuery["offset"] ?? null,
@@ -77,5 +88,5 @@ export const pagination = async (
     distinct: distinct || _newInclude ? true : false,
     order: Object.keys(orderQuery).length > 0 ? orderQuery.order : [],
     raw: !!raw,
-  });
+   });
 };

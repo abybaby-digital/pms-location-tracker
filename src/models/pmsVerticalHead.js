@@ -2,32 +2,36 @@ import { Model } from "sequelize";
 import { TABLES } from "../utils/constants.js";
 
 export default (sequelize, DataTypes) => {
-  class pmsLeftMenu extends Model {
-    // static associate(models) {
-    //   // define associations here if needed in future
-    //   // example:
-    //   // this.hasMany(models.pmsPermission, { ... })
-    // }
+  class pmsVerticalHead extends Model {
+    static associate(models) {
+      // define associations here if required
+    }
   }
 
-  pmsLeftMenu.init(
+  pmsVerticalHead.init(
     {
       id: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
         autoIncrement: true,
+        primaryKey: true,
         allowNull: false,
       },
 
-      menu_name: {
+      name_prefix: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+      },
+
+      name: {
         type: DataTypes.STRING(255),
         allowNull: false,
       },
 
       status: {
         type: DataTypes.ENUM("0", "1", "2"),
+        allowNull: false,
         defaultValue: "1",
-        comment: "0=inactive, 1=active, 2=deleted",
+        comment: "0=pending, 1=active, 2=deleted",
       },
 
       created_at: {
@@ -38,17 +42,18 @@ export default (sequelize, DataTypes) => {
 
       updated_at: {
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: true,
         defaultValue: DataTypes.NOW,
       },
     },
     {
       sequelize,
-      modelName: "pmsLeftMenu",
-      tableName: TABLES.LEFT_MENU_TABLE || "left_menus",
+      modelName: "pmsVerticalHead",
+      tableName: TABLES.VERTICAL_HEAD_TABLE || "vertical_heads",
       timestamps: false,
-    },
+      underscored: true,
+    }
   );
 
-  return pmsLeftMenu;
+  return pmsVerticalHead;
 };
