@@ -2,5 +2,6 @@ import * as authValidation from "./auth/index.js";
 import * as locationValidation from "./location/index.js";
 import * as checksValidation from "./checks/index.js";
 import * as commonValidation from "./common/index.js";
+import * as teamValidation from "./team/index.js";
 
-export { authValidation, locationValidation, checksValidation, commonValidation };
+export { authValidation, locationValidation, checksValidation, commonValidation, teamValidation };

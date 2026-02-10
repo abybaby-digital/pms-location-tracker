@@ -9,6 +9,7 @@ import * as checkinService from "./checkin/index.js";
 import * as vehicleService from "./vehicle/index.js";
 import * as activityLogService from "./activityLog/index.js";
 import * as sessionService from "./session/index.js";
+import * as teamService from "./team/index.js";
 
 export {
   userService,
@@ -22,4 +23,5 @@ export {
   vehicleService,
   activityLogService,
   sessionService,
+  teamService
 };
