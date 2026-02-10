@@ -20,12 +20,6 @@ teamRouter.post(
   siteController.team.getFoPaymentRequisitionList,
 );
 
-teamRouter.post(
-  "/team-list",
-  validateApiKey,
-  validateAccessToken,
-  siteController.team.getTeamList,
-);
-
+teamRouter.post("/team-list", validateApiKey, validateAccessToken, siteController.team.getTeamList);
 
 export { teamRouter };

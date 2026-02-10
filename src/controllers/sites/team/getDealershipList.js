@@ -16,7 +16,7 @@ export const getDealershipList = async (req, res, next) => {
         model: pmsUser,
         as: "user_data",
         attributes: ["id", "name"],
-        required: false, 
+        required: false,
       },
       {
         model: pmsUser,
@@ -48,7 +48,7 @@ export const getDealershipList = async (req, res, next) => {
         searchParams,
         pmsDealership,
         include,
-        condition
+        condition,
       );
 
       totalRecords = result.count;
@@ -65,11 +65,7 @@ export const getDealershipList = async (req, res, next) => {
 
     const response = rows.map((item) => {
       const row = item.toJSON();
-      const {
-        user_data,
-        user_data_update,
-        ...cleanData
-      } = row;
+      const { user_data, user_data_update, ...cleanData } = row;
 
       return {
         ...cleanData,

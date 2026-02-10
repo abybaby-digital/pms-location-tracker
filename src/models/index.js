@@ -27,8 +27,6 @@ import * as pmsVerticalHead from "./pmsVerticalHead.js";
 import * as pmsDealership from "./pmsDealership.js";
 import * as pmsFoPaymentRequisition from "./pmsFoPaymentRequisition.js";
 
-
-
 // Initialize models
 const db = {
   pmsUser: pmsUser.default(sequelize, Sequelize.DataTypes),
@@ -55,7 +53,6 @@ const db = {
   pmsVerticalHead: pmsVerticalHead.default(sequelize, Sequelize.DataTypes),
   pmsDealership: pmsDealership.default(sequelize, Sequelize.DataTypes),
   pmsFoPaymentRequisition: pmsFoPaymentRequisition.default(sequelize, Sequelize.DataTypes),
-  
 };
 
 // Run associations

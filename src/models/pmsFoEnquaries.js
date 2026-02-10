@@ -9,7 +9,6 @@ export default (sequelize, DataTypes) => {
       //   foreignKey: "project_id",
       //   as: "project",
       // });
-
       // this.belongsTo(models.pmsProjectTeam, {
       //   foreignKey: "team_id",
       //   as: "team",
@@ -169,7 +168,7 @@ export default (sequelize, DataTypes) => {
       tableName: TABLES.FO_ENQUIRIES_TABLE || "fo_enquiries",
       timestamps: false,
       underscored: true,
-    }
+    },
   );
 
   return pmsFoEnquaries;
