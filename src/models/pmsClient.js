@@ -72,7 +72,7 @@ export default (sequelize, DataTypes) => {
       tableName: TABLES.CLIENT_TABLE || "clients",
       timestamps: false,
       underscored: true,
-    }
+    },
   );
 
   return pmsClient;

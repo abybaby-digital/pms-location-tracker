@@ -4,7 +4,7 @@ import { TABLES } from "../utils/constants.js";
 export default (sequelize, DataTypes) => {
   class pmsFoPaymentRequisition extends Model {
     static associate(models) {
-       this.belongsTo(models.pmsProject, {
+      this.belongsTo(models.pmsProject, {
         foreignKey: "project_id",
         as: "project",
       });
@@ -199,11 +199,10 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "pmsFoPaymentRequisition",
-      tableName:
-        TABLES.FO_PAYMENT_REQUISITIONS || "fo_payment_requisitions",
+      tableName: TABLES.FO_PAYMENT_REQUISITIONS || "fo_payment_requisitions",
       timestamps: false,
       underscored: true,
-    }
+    },
   );
 
   return pmsFoPaymentRequisition;

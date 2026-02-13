@@ -3,22 +3,11 @@ import models from "../../../models/index.js";
 import { paginationService, teamService } from "../../../services/index.js";
 import { StatusError } from "../../../config/index.js";
 
-const {
-  pmsProjectActivityPhoto,
-  pmsProjectTeams,
-  pmsProject,
-  pmsUser,
-} = models;
+const { pmsProjectActivityPhoto, pmsProjectTeams, pmsProject, pmsUser } = models;
 
 export const getActivityPhotoByTeamId = async (req, res, next) => {
   try {
-    const {
-      team_id: teamId,
-      start_date: startDate,
-      end_date: endDate,
-      page,
-      limit,
-    } = req.body;
+    const { team_id: teamId, start_date: startDate, end_date: endDate, page, limit } = req.body;
 
     const userId = req.userDetails?.userId;
     const roleId = req.userDetails?.role_id;
@@ -48,9 +37,7 @@ export const getActivityPhotoByTeamId = async (req, res, next) => {
 
     // FO restriction
     if (roleId === 9) {
-      whereClause[Op.and] = [
-        literal(`FIND_IN_SET(${userId}, pmsProjectActivityPhoto.fo_ids)`),
-      ];
+      whereClause[Op.and] = [literal(`FIND_IN_SET(${userId}, pmsProjectActivityPhoto.fo_ids)`)];
     }
 
     // Date filters
@@ -106,8 +93,7 @@ export const getActivityPhotoByTeamId = async (req, res, next) => {
     );
 
     /* ---------------- FORMAT RESPONSE ---------------- */
-    const path =
-      "https://d1b0j0djmkh9z0.cloudfront.net/storage/activity/";
+    const path = "https://d1b0j0djmkh9z0.cloudfront.net/storage/activity/";
 
     const formattedData = rows.map((item) => {
       const data = item.toJSON();
@@ -117,9 +103,7 @@ export const getActivityPhotoByTeamId = async (req, res, next) => {
       data.team_created_by = item.user_data_created?.name ?? null;
       data.team_updated_by = item.user_data_updated?.name ?? null;
 
-      data.activity_photo = data.activity_photo
-        ? path + data.activity_photo
-        : null;
+      data.activity_photo = data.activity_photo ? path + data.activity_photo : null;
 
       // REMOVE RELATIONS (Laravel-style)
       delete data.project_team;

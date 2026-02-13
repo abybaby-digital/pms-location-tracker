@@ -52,7 +52,7 @@ export default (sequelize, DataTypes) => {
       tableName: TABLES.VERTICAL_HEAD_TABLE || "vertical_heads",
       timestamps: false,
       underscored: true,
-    }
+    },
   );
 
   return pmsVerticalHead;

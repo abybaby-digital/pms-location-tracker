@@ -128,11 +128,10 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "pmsProjectPaymentReceived",
-      tableName:
-        TABLES.PROJECT_PAYMENT_RECEIVED_TABLE || "project_payment_received",
+      tableName: TABLES.PROJECT_PAYMENT_RECEIVED_TABLE || "project_payment_received",
       timestamps: false,
       underscored: true,
-    }
+    },
   );
 
   return pmsProjectPaymentReceived;

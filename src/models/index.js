@@ -28,8 +28,7 @@ import * as pmsDealership from "./pmsDealership.js";
 import * as pmsFoPaymentRequisition from "./pmsFoPaymentRequisition.js";
 import * as pmsGift from "./pmsGift.js";
 import * as pmsProjectActivityPhoto from "./pmsProjectActivityPhoto.js";
-
-
+import * as pmsFoExpenses from "./pmsFoExpenses.js";
 
 // Initialize models
 const db = {
@@ -59,6 +58,7 @@ const db = {
   pmsFoPaymentRequisition: pmsFoPaymentRequisition.default(sequelize, Sequelize.DataTypes),
   pmsGift: pmsGift.default(sequelize, Sequelize.DataTypes),
   pmsProjectActivityPhoto: pmsProjectActivityPhoto.default(sequelize, Sequelize.DataTypes),
+  pmsFoExpenses: pmsFoExpenses.default(sequelize, Sequelize.DataTypes),
 };
 
 // Run associations

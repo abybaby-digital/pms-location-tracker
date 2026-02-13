@@ -88,5 +88,5 @@ export const pagination = async (
     distinct: distinct || _newInclude ? true : false,
     order: Object.keys(orderQuery).length > 0 ? orderQuery.order : [],
     raw: !!raw,
-   });
+  });
 };

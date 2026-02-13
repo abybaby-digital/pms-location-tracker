@@ -3,6 +3,7 @@ import { getAllVehicleBrand } from "./getVehicleBrand.js";
 import { addVehicleBrand } from "./addVehicleBrand.js";
 import { logHistoryController } from "./logHistoryController.js";
 import { getfinancialYear } from "./getFinancialYears.js";
+import { projectReport } from "./projectReport.js";
 
 export {
   logHistoryController,
@@ -10,4 +11,5 @@ export {
   addVehicleBrand,
   getAllVehicleBrand,
   getfinancialYear,
+  projectReport,
 };

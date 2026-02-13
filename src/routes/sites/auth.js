@@ -17,5 +17,11 @@ authRouter.get(
   validateAccessToken,
   siteController.authController.userProfile,
 );
+// authRouter.get(
+//   "/change-password",
+//   validateApiKey,
+//   validateAccessToken,
+//   siteController.authController.,
+// );
 
 export { authRouter };

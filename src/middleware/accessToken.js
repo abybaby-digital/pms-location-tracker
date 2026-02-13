@@ -29,6 +29,24 @@ export const validateAccessToken = async (req, res, next) => {
       throw StatusError.unauthorized("");
     }
 
+    let add_access = generalHelper.splitAddAccess(userDetails);
+    let add_access_name;
+
+    if (add_access.length > 0) {
+      add_access_name = userService.getAccessName(add_access);
+    } else {
+      add_access = null;
+    }
+
+    let edit_access = generalHelper.splitAddAccess(userDetails);
+    let edit_access_name;
+
+    if (edit_access.length > 0) {
+      edit_access_name = userService.getAccessName(edit_access);
+    } else {
+      edit_access = null;
+    }
+
     const accessIds = generalHelper.splitAccessIds(userDetails);
     const accessNames = await userService.getAccessName(accessIds);
 
@@ -45,8 +63,14 @@ export const validateAccessToken = async (req, res, next) => {
       branch_id: userDetails.branch_id,
       branch_name: userDetails.branch.branch_name,
       contact_number: userDetails.contact_number,
+      access_type_list: userDetails.role?.access_type_list || null,
+      access_type_list_name: accessNames.join(",") || null,
       access: userDetails.role?.access_type_list || null,
       access_name: accessNames.join(",") || null,
+      add_access: add_access || null,
+      add_access_name: add_access_name?.join(",") || null,
+      edit_access: edit_access || null,
+      edit_access_name: edit_access_name?.join(",") || null,
       email_verified_at: userDetails.email_verified_at,
       profile_img: userDetails.profile_img,
       user_details: userDetails.user_details,

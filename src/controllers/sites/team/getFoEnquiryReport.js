@@ -4,18 +4,12 @@ import moment from "moment";
 import { paginationService, teamService } from "../../../services/index.js";
 import { StatusError } from "../../../config/index.js";
 
-const {
-  pmsFoEnquaries,
-  pmsProjectTeams,
-  pmsProject,
-  pmsUser,
-  pmsDealership,
-  pmsGift,
-} = models;
+const { pmsFoEnquaries, pmsProjectTeams, pmsProject, pmsUser, pmsDealership, pmsGift } = models;
 
 export const getFoEnquiryReport = async (req, res, next) => {
   try {
     const reqBody = req.body;
+    console.log(reqBody);
 
     const page = reqBody.page ? parseInt(reqBody.page) : null;
     const limit = reqBody.limit ? parseInt(reqBody.limit) : null;
@@ -24,11 +18,13 @@ export const getFoEnquiryReport = async (req, res, next) => {
     const roleId = req.userDetails?.role_id;
 
     const reportFor = reqBody.report_for;
-    const startDate = reqBody.start_date;
-    const endDate = reqBody.end_date;
+    // const startDate = reqBody.start_date;
+    // const endDate = reqBody.end_date;
     const teamId = reqBody.team_id;
 
     const team = await teamService.getTeamId(teamId);
+    console.log(team);
+
     if (!team) {
       throw StatusError.badRequest("Team ID not found");
     }
@@ -43,6 +39,7 @@ export const getFoEnquiryReport = async (req, res, next) => {
     ];
 
     const teamFoIds = team.fo_ids?.split(",") || [];
+
     let foId = null;
 
     if (teamFoIds.includes(String(userId))) {
@@ -73,19 +70,20 @@ export const getFoEnquiryReport = async (req, res, next) => {
       condition.created_at = {
         [Op.between]: [`${today} 00:00:00`, `${today} 23:59:59`],
       };
-    } else if (startDate && endDate) {
-      condition.created_at = {
-        [Op.between]: [`${startDate} 00:00:00`, `${endDate} 23:59:59`],
-      };
-    } else if (startDate) {
-      condition.created_at = {
-        [Op.between]: [`${startDate} 00:00:00`, `${startDate} 23:59:59`],
-      };
-    } else if (endDate) {
-      condition.created_at = {
-        [Op.between]: [`${endDate} 00:00:00`, `${endDate} 23:59:59`],
-      };
     }
+    // } else if (startDate && endDate) {
+    //   condition.created_at = {
+    //     [Op.between]: [`${startDate} 00:00:00`, `${endDate} 23:59:59`],
+    //   };
+    // } else if (startDate) {
+    //   condition.created_at = {
+    //     [Op.between]: [`${startDate} 00:00:00`, `${startDate} 23:59:59`],
+    //   };
+    // } else if (endDate) {
+    //   condition.created_at = {
+    //     [Op.between]: [`${endDate} 00:00:00`, `${endDate} 23:59:59`],
+    //   };
+    // }
 
     const searchParams = {
       page,

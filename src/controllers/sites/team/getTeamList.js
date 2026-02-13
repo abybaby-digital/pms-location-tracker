@@ -23,12 +23,9 @@ export const getTeamList = async (req, res, next) => {
       financial_year: financial_year_id,
     };
 
-
     switch (roleId) {
       case 5:
-        condition[Op.and] = [
-          literal(`FIND_IN_SET(${loginUserId}, pmsProject.vertical_head_id)`),
-        ];
+        condition[Op.and] = [literal(`FIND_IN_SET(${loginUserId}, pmsProject.vertical_head_id)`)];
         break;
 
       case 6:
@@ -169,7 +166,7 @@ export const getTeamList = async (req, res, next) => {
       }),
     );
 
-     return res.ok({
+    return res.ok({
       result: {
         status: 200,
         success: 1,

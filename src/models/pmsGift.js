@@ -3,8 +3,7 @@ import { TABLES } from "../utils/constants.js";
 
 export default (sequelize, DataTypes) => {
   class pmsGift extends Model {
-    static associate(models) {
-    }
+    static associate(models) {}
   }
 
   pmsGift.init(
@@ -42,7 +41,7 @@ export default (sequelize, DataTypes) => {
       modelName: "pmsGift",
       tableName: TABLES.PMS_GIFT_TABLE || "gifts",
       timestamps: false,
-    }
+    },
   );
 
   return pmsGift;
