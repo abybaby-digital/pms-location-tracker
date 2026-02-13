@@ -26,6 +26,10 @@ import * as pmsProjectPaymentReceived from "./pmsProjectPaymentReceived.js";
 import * as pmsVerticalHead from "./pmsVerticalHead.js";
 import * as pmsDealership from "./pmsDealership.js";
 import * as pmsFoPaymentRequisition from "./pmsFoPaymentRequisition.js";
+import * as pmsGift from "./pmsGift.js";
+import * as pmsProjectActivityPhoto from "./pmsProjectActivityPhoto.js";
+
+
 
 // Initialize models
 const db = {
@@ -53,6 +57,8 @@ const db = {
   pmsVerticalHead: pmsVerticalHead.default(sequelize, Sequelize.DataTypes),
   pmsDealership: pmsDealership.default(sequelize, Sequelize.DataTypes),
   pmsFoPaymentRequisition: pmsFoPaymentRequisition.default(sequelize, Sequelize.DataTypes),
+  pmsGift: pmsGift.default(sequelize, Sequelize.DataTypes),
+  pmsProjectActivityPhoto: pmsProjectActivityPhoto.default(sequelize, Sequelize.DataTypes),
 };
 
 // Run associations

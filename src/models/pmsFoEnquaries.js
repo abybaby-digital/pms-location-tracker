@@ -4,15 +4,40 @@ import { TABLES } from "../utils/constants.js";
 export default (sequelize, DataTypes) => {
   class pmsFoEnquaries extends Model {
     static associate(models) {
-      // ✅ ALWAYS reference via models.*
-      // this.belongsTo(models.pmsProject, {
-      //   foreignKey: "project_id",
-      //   as: "project",
+      this.belongsTo(models.pmsProjectTeams, {
+        foreignKey: "team_id",
+        as: "project_team",
+      });
+
+      this.belongsTo(models.pmsProject, {
+        foreignKey: "project_id",
+        as: "project_data",
+      });
+
+      // this.belongsTo(models.pmsFinancialYear, {
+      //   foreignKey: "financial_year",
+      //   as: "fyear",
       // });
-      // this.belongsTo(models.pmsProjectTeam, {
-      //   foreignKey: "team_id",
-      //   as: "team",
-      // });
+
+      this.belongsTo(models.pmsUser, {
+        foreignKey: "created_by",
+        as: "user_data_created",
+      });
+
+      this.belongsTo(models.pmsUser, {
+        foreignKey: "updated_by",
+        as: "user_data_updated",
+      });
+
+      this.belongsTo(models.pmsDealership, {
+        foreignKey: "dealership_id",
+        as: "dealership_data",
+      });
+
+      this.belongsTo(models.pmsGift, {
+        foreignKey: "gift_id",
+        as: "gift_data",
+      });
     }
   }
 
