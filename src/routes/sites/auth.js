@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { siteController } from "../../controllers/index.js";
 import { validateApiKey, validateAccessToken } from "../../middleware/index.js";
+import { siteValidation } from "../../validations/index.js";
+import upload from "../../config/multer.js";
 
 const authRouter = Router();
 
@@ -17,11 +19,13 @@ authRouter.get(
   validateAccessToken,
   siteController.authController.userProfile,
 );
-// authRouter.get(
-//   "/change-password",
-//   validateApiKey,
-//   validateAccessToken,
-//   siteController.authController.,
-// );
+authRouter.post(
+  "/change-password",
+  validateApiKey,
+  validateAccessToken,
+  upload.none(),
+  siteValidation.authValidation.changePassword,
+  siteController.authController.changePassword,
+);
 
 export { authRouter };

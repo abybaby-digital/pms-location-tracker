@@ -27,7 +27,6 @@ export const getFoExpenses = async (req, res) => {
         success: 0,
         response: resultData,
         message: "FO expenses data added",
-        token: "",
       },
     });
   } catch (error) {
