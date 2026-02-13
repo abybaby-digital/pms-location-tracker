@@ -39,5 +39,11 @@ commonRoutes.get(
   validateAccessToken,
   siteController.common.getfinancialYear,
 );
+commonRoutes.get(
+  "/project-report",
+  validateApiKey,
+  validateAccessToken,
+  siteController.common.projectReport,
+);
 
 export { commonRoutes };

@@ -8,7 +8,7 @@ export const userProfile = async (req, res, next) => {
         success: true,
         message: "User acount fetched successfully",
         response: {
-          user: userDetails,
+          ...userDetails,
         },
       },
     });

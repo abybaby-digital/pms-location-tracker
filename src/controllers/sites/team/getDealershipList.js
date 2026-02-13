@@ -1,6 +1,6 @@
 import { paginationService } from "../../../services/index.js";
 import models from "../../../models/index.js";
-import { envs } from "../../../config/envs.js";
+// import { envs } from "../../../config/envs.js";
 
 const { pmsDealership, pmsUser } = models;
 
@@ -75,10 +75,12 @@ export const getDealershipList = async (req, res, next) => {
     });
 
     return res.ok({
-      status: 200,
-      success: response.length ? 1 : 0,
-      totalRecords,
-      response,
+      result: {
+        status: 200,
+        success: response.length ? 1 : 0,
+        totalRecords,
+        response,
+      },
     });
   } catch (error) {
     console.error(error);

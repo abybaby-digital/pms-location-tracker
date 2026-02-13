@@ -10,15 +10,13 @@ export const getFoReport = async (req, res, next) => {
     const roleId = req.userDetails?.role_id;
 
     const currentFinancialYearId = await commonService.getCurrentFinancialYearId();
-    
+
     const currentWhere = {
       financial_year: currentFinancialYearId,
     };
 
     if (roleId === 9) {
-      currentWhere[Op.and] = [
-        literal(`FIND_IN_SET(${userId}, fo_ids)`),
-      ];
+      currentWhere[Op.and] = [literal(`FIND_IN_SET(${userId}, fo_ids)`)];
     }
 
     const currentProject = await pmsProject.findOne({
@@ -34,9 +32,7 @@ export const getFoReport = async (req, res, next) => {
       foAssign = await pmsProjectTeams.findOne({
         where: {
           project_id: currentProjectId,
-          [Op.and]: [
-            literal(`FIND_IN_SET(${userId}, fo_ids)`),
-          ],
+          [Op.and]: [literal(`FIND_IN_SET(${userId}, fo_ids)`)],
         },
       });
     }
@@ -46,9 +42,7 @@ export const getFoReport = async (req, res, next) => {
     };
 
     if (roleId === 9) {
-      previousWhere[Op.and] = [
-        literal(`FIND_IN_SET(${userId}, fo_history_ids)`),
-      ];
+      previousWhere[Op.and] = [literal(`FIND_IN_SET(${userId}, fo_history_ids)`)];
     }
 
     const previousProjects = await pmsProject.findAll({

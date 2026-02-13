@@ -23,5 +23,5 @@ export {
   vehicleService,
   activityLogService,
   sessionService,
-  teamService
+  teamService,
 };

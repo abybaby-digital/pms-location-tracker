@@ -5,24 +5,24 @@ export default (sequelize, DataTypes) => {
   class pmsProjectActivityPhoto extends Model {
     static associate(models) {
       this.belongsTo(models.pmsProjectTeams, {
-    foreignKey: "team_id",
-    as: "project_team",
-  });
+        foreignKey: "team_id",
+        as: "project_team",
+      });
 
-  this.belongsTo(models.pmsProject, {
-    foreignKey: "project_id",
-    as: "project_data",
-  });
+      this.belongsTo(models.pmsProject, {
+        foreignKey: "project_id",
+        as: "project_data",
+      });
 
-  this.belongsTo(models.pmsUser, {
-    foreignKey: "created_by",
-    as: "user_data_created",
-  });
+      this.belongsTo(models.pmsUser, {
+        foreignKey: "created_by",
+        as: "user_data_created",
+      });
 
-  this.belongsTo(models.pmsUser, {
-    foreignKey: "updated_by",
-    as: "user_data_updated",
-  });
+      this.belongsTo(models.pmsUser, {
+        foreignKey: "updated_by",
+        as: "user_data_updated",
+      });
     }
   }
 
@@ -100,8 +100,7 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "pmsProjectActivityPhoto",
-      tableName:
-        TABLES.PROJECT_ACTIVITY_PHOTO_TABLE || "project_activity_photos",
+      tableName: TABLES.PROJECT_ACTIVITY_PHOTO_TABLE || "project_activity_photos",
       timestamps: false,
     },
   );
